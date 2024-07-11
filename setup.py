@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='chatbot',  # 您的包名
+    name='revkimi',  # 您的包名
     version='0.1.0',  # 版本号
     author='DrTang',  # 作者名
     description='A simple chatbot using the Kimi API',  # 简单描述
