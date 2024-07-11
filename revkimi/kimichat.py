@@ -39,23 +39,25 @@ class Chatbot:
 
         logging.debug(self.cookies)
 
+        cookie_str_access=self.cookies["access_token"]
+
         self.headers={
             "user-agent":
                 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
             "Content-Type": "application/json",
             "Referer": "https://kimi.moonshot.cn",
             "Origin": "https://kimi.moonshot.cn",
-            "Authorization": f"Bearer {cookies_str}"
+            "Authorization": f"Bearer {cookie_str_access}"
         }
 
     def __refresh_token(self):
         """刷新token"""
         resp = requests.get(
             url=self.api_base + "/auth/token/refresh",
-            headers=self.__get_header("refresh_token")
+            headers=self.cookies['refresh_token']
         ).json()
-        self.config["access_token"] = resp["access_token"]
-        self.config["refresh_token"] = resp["refresh_token"]
+        self.cookies["access_token"] = resp["access_token"]
+        self.cookies["refresh_token"] = resp["refresh_token"]
 
     def __request(
             self,
@@ -82,7 +84,7 @@ class Chatbot:
                 method=method,
                 url=url,
                 stream=stream,
-                headers=self.__get_header("access_token"),
+                headers=self.cookies["access_token"],
                 **kwargs
             )
         else:
